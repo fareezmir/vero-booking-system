@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import type { Physician } from "@prisma/client";
 
 // Returns all physicians
 export async function GET() {
-    const physicians = await prisma.physician.findMany();
+    const physicians: Physician[] = await prisma.physician.findMany();
     return Response.json({ physicians });
 }
