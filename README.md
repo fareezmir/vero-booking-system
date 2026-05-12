@@ -1,50 +1,86 @@
-# vero-booking-system
+# Vero Booking System
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A patient booking flow.
 
-## Prisma (SQLite)
+## How to Run
 
-Copy `.env.example` to `.env`, install dependencies, apply migrations, generate the client, then start the app:
+### Prerequisites
+- Node.js 18+
+- npm
 
+### Steps
+
+1. Clone the repository
 ```bash
-cp .env.example .env   # Windows: copy .env.example .env
-npm install
-npx prisma migrate deploy
-npx prisma generate
-npm run dev
+   git clone https://github.com/fareezmir/vero-booking-system.git
+   cd vero-booking-system
 ```
 
-## Getting Started
-
-First, run the development server:
-
+2. Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Create a `.env` file in the root directory, and put: DATABASE_URL="file:./dev.db"
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Set up the database by typing:
+```bash
+   npx prisma migrate dev --name init
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. Seed mock data
+```bash
+   npx prisma db seed
+```
 
-## Learn More
+6. Finally, start the development server
+```bash
+   npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+7. Open [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> **Patient view**: `http://localhost:3000/book`  
+> **Admin view**: `http://localhost:3000/admin`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## What I Built
 
-## Deploy on Vercel
+A patient booking system using Next.js for both the frontend and backend, with SQLite as a lightweight local database powered by Prisma as the ORM.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The booking flow is simple: a patient clicks "Book an Appointment" and is greeted with a list of physicians to choose from. Once selected, they pick from available time slots and finally fill in their basic personal info and reason for visit. The form is intentionally placed at the end to reduce initial friction, since a patient who has already picked a doctor and a time is far more likely to complete the form than one who is asked to fill it out upfront.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+On the admin side, physicians and staff can view all bookings and update their status to "Confirmed" or "Cancelled". Filtering by status and physician makes it easy to quickly sift through bookings without scrolling through everything.
+
+## Key Technical Decisions
+
+**Next.js as a fullstack framework**: Next.js API routes handle all backend logic, eliminating the need for a separate Express server. This keeps the project in a single repo with one command to run, which is appropriate for this scope. In production, the backend would be split into a dedicated service to allow for better separation of concerns, and independent scaling for things like authentication.
+
+**SQLite as the database**: SQLite was chosen purely for reviewer convenience. No external database setup required, so anyone can just clone and run. Prisma was used as the ORM to avoid raw SQL, keeping queries readable and type-safe.
+
+**Singleton Prisma pattern**: A single shared PrismaClient instance is stored on `globalThis` to prevent multiple database connections during Next.js hot reloads in development. This is a standard pattern from the official Prisma docs.
+
+**Atomic Design component architecture**: Components are organized into atoms (Button, Input, StatusBadge), molecules (PhysicianCard, SlotCard, BookingCard, FilterChips), and organisms (PhysicianSelector, SlotSelector, PatientDetailsForm, Navbar). This keeps the codebase scalable and each component focused on a single responsibility.
+
+**Services layer**: All API calls are abstracted into a dedicated `bookingService.ts` file. This separates data fetching from UI components and makes it easy to swap the underlying API without touching component code.
+
+**Form-last UX**: The patient details form is placed at the end of the booking flow intentionally. A patient who has already selected a physician and time slot has built momentum and is far more likely to complete the form than one who is asked to fill it out upfront.
+
+**Color palette**: A navy, teal, and beige palette was chosen to feel calm, clinical, and trustworthy, appropriate for a healthcare product.
+
+**Admin route is unprotected**: For demo purposes the admin route is publicly accessible. In production this would require role-based authentication.
+
+## What I Would Improve With More Time
+
+**Authentication**: Add role-based authentication for the admin route. For patients, guest booking is intentionally kept frictionless, but a post-confirmation account creation prompt would allow them to track their booking history.
+
+**Email confirmation receipt**: Once an admin confirms a booking, automatically send the patient a confirmation email with their appointment details (physician, date, time). The `createdAt` timestamp is already captured in the database and would be included in the confirmation.
+
+**Email admin notices**: Send a notification to the admin when a new booking comes in.
+
+**More Sorting options**: Allow the admin to sort bookings by patient name (A-Z), booking date, or appointment date.
+
+**Mobile responsiveness**: Basic responsiveness is in place but the booking flow and admin dashboard could be further optimized for smaller screens since I didn't test on mobile.
+
+**UI polish**: The frontend is intentionally minimal but could be elevated with micro-animations, transitions between booking steps, decorative icons, or a further refined aesthetic to give patients a more premium experience when on the site.
+
+**CI/CD**: Add a GitHub Actions pipeline with ESLint and Prettier checks on every push.
