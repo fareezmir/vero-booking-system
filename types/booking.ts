@@ -1,9 +1,9 @@
-export interface Booking {
+import type { BookingFormData } from "@/types/bookingFormData";
+
+export type BookingStatus = "pending" | "confirmed" | "cancelled";
+
+export interface Booking extends BookingFormData {
   id: number;
-  patientName: string;
-  patientEmail: string;
-  patientPhone: string;
-  reasonForVisit: string;
   status: string;
   createdAt: string;
   slot: {
@@ -14,5 +14,3 @@ export interface Booking {
     };
   };
 }
-
-export type BookingStatus = "pending" | "confirmed" | "cancelled";
