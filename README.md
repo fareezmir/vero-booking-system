@@ -87,6 +87,6 @@ On the admin side, physicians and staff can view all bookings and update their s
 
 **Form validation**: Add proper input validation to ensure the email field contains a valid email address, phone number matches a valid format, and all fields meet minimum length requirements. Currently only checks that fields are non-empty.
 
-**Testing**: Add unit tests for API routes and integration tests for the booking flow using React Testing Library.
+**Testing**: Add unit tests for API routes and integration tests for the booking flow using Jest and React Testing Library.
 
 **CI/CD**: Add a GitHub Actions pipeline with ESLint and Prettier checks on every push.
