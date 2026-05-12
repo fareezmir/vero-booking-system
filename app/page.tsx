@@ -6,10 +6,12 @@ export default function Home() {
     <main className="min-h-screen flex flex-col items-center justify-center bg-beige">
       <div className="text-center max-w-lg px-6">
         <h1 className="text-3xl font-bold text-navy mb-3 leading-tight">
-          Book your appointment,<br />the simple way.
+          Book your appointment,
+          <br />
+          the simple way.
         </h1>
         <p className="text-base text-teal mb-8">
-          Choose a physician, pick a time, and you're all set.
+          Choose a physician, pick a time, and you&apos;re all set.
         </p>
         <Link href="/book">
           <Button>Book an Appointment</Button>

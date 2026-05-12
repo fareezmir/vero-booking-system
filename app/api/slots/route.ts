@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     });
 
     return Response.json({ slots }, { status: 200 });
-  } catch (error) {
+  } catch {
     return Response.json({ error: "Failed to fetch slots" }, { status: 500 });
   }
 }

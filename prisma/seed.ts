@@ -39,7 +39,8 @@ async function main() {
     }
   }
 
-  console.log("Seeded successfully");}
+  console.log("Seeded successfully");
+}
 
 main()
   .catch(console.error)

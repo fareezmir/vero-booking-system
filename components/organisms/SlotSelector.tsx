@@ -10,7 +10,13 @@ interface SlotSelectorProps {
   onBack: () => void;
 }
 
-export default function SlotSelector({ slots, selectedSlot, onSelect, onNext, onBack }: SlotSelectorProps) {
+export default function SlotSelector({
+  slots,
+  selectedSlot,
+  onSelect,
+  onNext,
+  onBack,
+}: SlotSelectorProps) {
   return (
     <div>
       <h2 className="text-lg font-medium text-navy mb-4">Select a Time Slot</h2>
@@ -25,8 +31,12 @@ export default function SlotSelector({ slots, selectedSlot, onSelect, onNext, on
         ))}
       </div>
       <div className="flex justify-between">
-        <Button onClick={onBack} variant="outline">← Back</Button>
-        <Button onClick={onNext} variant="primary">Next →</Button>
+        <Button onClick={onBack} variant="outline">
+          ← Back
+        </Button>
+        <Button onClick={onNext} variant="primary">
+          Next →
+        </Button>
       </div>
     </div>
   );

@@ -11,7 +11,11 @@ const variantStyles = {
     "border border-navy text-navy bg-transparent hover:scale-105 hover:-translate-y-0.5 active:scale-95",
 };
 
-export default function Button({ children, onClick, variant = "primary" }: ButtonProps) {
+export default function Button({
+  children,
+  onClick,
+  variant = "primary",
+}: ButtonProps) {
   return (
     <button
       onClick={onClick}

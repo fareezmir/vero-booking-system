@@ -41,7 +41,7 @@ export default function Admin() {
     try {
       await updateBookingStatus(id, status);
       setBookings((prev) =>
-        prev.map((b) => (b.id === id ? { ...b, status } : b))
+        prev.map((b) => (b.id === id ? { ...b, status } : b)),
       );
     } catch {
       alert("Failed to update booking status.");
@@ -54,7 +54,8 @@ export default function Admin() {
 
   const filtered = bookings.filter((b) => {
     const matchesStatus = statusFilter === "all" || b.status === statusFilter;
-    const matchesPhysician = physicianFilter === "all" || b.slot.physician.name === physicianFilter;
+    const matchesPhysician =
+      physicianFilter === "all" || b.slot.physician.name === physicianFilter;
     return matchesStatus && matchesPhysician;
   });
 
@@ -62,7 +63,9 @@ export default function Admin() {
     <main className="min-h-screen bg-beige px-6 py-12">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold text-navy mb-2">Admin Dashboard</h1>
-        <p className="text-teal text-sm mb-8">Manage upcoming patient bookings</p>
+        <p className="text-teal text-sm mb-8">
+          Manage upcoming patient bookings
+        </p>
 
         <div className="flex gap-6 mb-6 flex-wrap">
           <FilterChips

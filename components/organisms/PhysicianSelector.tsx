@@ -9,7 +9,12 @@ interface PhysicianSelectorProps {
   onNext: () => void;
 }
 
-export default function PhysicianSelector({ physicians, selectedPhysician, onSelect, onNext }: PhysicianSelectorProps) {
+export default function PhysicianSelector({
+  physicians,
+  selectedPhysician,
+  onSelect,
+  onNext,
+}: PhysicianSelectorProps) {
   return (
     <div>
       <h2 className="text-lg font-medium text-navy mb-4">Select a Physician</h2>
@@ -24,7 +29,9 @@ export default function PhysicianSelector({ physicians, selectedPhysician, onSel
         ))}
       </div>
       <div className="flex justify-end">
-        <Button onClick={onNext} variant="primary">Next →</Button>
+        <Button onClick={onNext} variant="primary">
+          Next →
+        </Button>
       </div>
     </div>
   );
