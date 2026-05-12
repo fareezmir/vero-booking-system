@@ -44,3 +44,31 @@ export async function createBooking(formData: BookingFormData, slotId: number): 
         throw error;
     }
 }
+
+export async function getBookings() {
+    try {
+      const response = await fetch(`${BASE_URL}/api/bookings`);
+      if (!response.ok) throw new Error('Failed to fetch bookings');
+      const data = await response.json();
+      return data.bookings;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+}
+
+export async function updateBookingStatus(id: number, status: string): Promise<Booking> {
+    try {
+      const response = await fetch(`${BASE_URL}/api/bookings/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) throw new Error('Failed to update booking status');
+      const data = await response.json();
+      return data as Booking;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+}
