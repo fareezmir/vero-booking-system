@@ -3,15 +3,19 @@ import type { Slot } from "@prisma/client";
 
 // Returns all time slots filtered by the physician, and nobody has booked it yet
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const physicianId = Number(searchParams.get("physicianId"));
+  try {
+    const { searchParams } = new URL(request.url);
+    const physicianId = Number(searchParams.get("physicianId"));
 
-  const slots: Slot[] = await prisma.slot.findMany({
-    where: {
-      physicianId,
-      booking: null,
-    },
-  });
+    const slots: Slot[] = await prisma.slot.findMany({
+      where: {
+        physicianId,
+        booking: null,
+      },
+    });
 
-  return Response.json({ slots });
+    return Response.json({ slots }, { status: 200 });
+  } catch (error) {
+    return Response.json({ error: "Failed to fetch slots" }, { status: 500 });
+  }
 }
