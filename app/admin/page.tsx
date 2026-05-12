@@ -4,25 +4,7 @@ import { useState, useEffect } from "react";
 import { getBookings, updateBookingStatus } from "@/services/bookingService";
 import BookingCard from "@/components/molecules/BookingCard";
 import FilterChips from "@/components/atoms/FilterChips";
-
-type BookingStatus = "pending" | "confirmed" | "cancelled";
-
-interface Booking {
-  id: number;
-  patientName: string;
-  patientEmail: string;
-  patientPhone: string;
-  reasonForVisit: string;
-  status: string;
-  createdAt: string;
-  slot: {
-    datetime: string;
-    physician: {
-      name: string;
-      specialty: string;
-    };
-  };
-}
+import type { Booking, BookingStatus } from "@/types/booking";
 
 export default function Admin() {
   const [bookings, setBookings] = useState<Booking[]>([]);

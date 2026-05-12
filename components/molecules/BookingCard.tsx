@@ -1,24 +1,9 @@
 import Button from "@/components/atoms/Button";
 import StatusBadge from "@/components/atoms/StatusBadge";
-
-type BookingStatus = "pending" | "confirmed" | "cancelled";
+import type { Booking, BookingStatus } from "@/types/booking";
 
 interface BookingCardProps {
-  booking: {
-    id: number;
-    patientName: string;
-    patientEmail: string;
-    patientPhone: string;
-    reasonForVisit: string;
-    status: string;
-    slot: {
-      datetime: string;
-      physician: {
-        name: string;
-        specialty: string;
-      };
-    };
-  };
+  booking: Booking;
   onStatusChange: (id: number, status: BookingStatus) => void;
 }
 
