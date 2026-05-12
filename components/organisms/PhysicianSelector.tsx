@@ -24,12 +24,7 @@ export default function PhysicianSelector({ physicians, selectedPhysician, onSel
         ))}
       </div>
       <div className="flex justify-end">
-        <Button onClick={() => {
-          if (!selectedPhysician) return alert("Please select a physician.");
-          onNext();
-        }} variant="primary">
-          Next →
-        </Button>
+        <Button onClick={onNext} variant="primary">Next →</Button>
       </div>
     </div>
   );

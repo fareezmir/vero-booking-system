@@ -34,6 +34,7 @@ export default function Book() {
   // UI state
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getPhysicians().then(setPhysicians);
@@ -48,15 +49,16 @@ export default function Book() {
   async function handleSubmit() {
     if (!selectedSlot) return;
     if (!formData.patientName || !formData.patientEmail || !formData.patientPhone || !formData.reasonForVisit) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
     setLoading(true);
+    setError(null);
     try {
       await createBooking(formData, selectedSlot);
       setSubmitted(true);
     } catch {
-      alert("Something went wrong. Please try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -79,37 +81,53 @@ export default function Book() {
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold text-navy mb-2">Book an Appointment</h1>
         <p className="text-teal mb-8 text-sm">Step {step} of 3</p>
-  
+
         <StepIndicator currentStep={step} />
-  
+
+        <p className="text-red-500 text-sm mb-4 min-h-[20px]">
+          {error ?? ""}
+        </p>
+
         {step === 1 && (
           <PhysicianSelector
             physicians={physicians}
             selectedPhysician={selectedPhysician}
             onSelect={setSelectedPhysician}
-            onNext={() => setStep(2)}
+            onNext={() => {
+              if (!selectedPhysician) { setError("Please select a physician."); return; }
+              setError(null);
+              setStep(2);
+            }}
           />
         )}
-  
+
         {step === 2 && (
           <SlotSelector
             slots={slots}
             selectedSlot={selectedSlot}
             onSelect={setSelectedSlot}
-            onNext={() => setStep(3)}
+            onNext={() => {
+              if (!selectedSlot) { setError("Please select a time slot."); return; }
+              setError(null);
+              setStep(3);
+            }}
             onBack={() => {
               setSelectedSlot(null);
+              setError(null);
               setStep(1);
             }}
           />
         )}
-  
+
         {step === 3 && (
           <PatientDetailsForm
             formData={formData}
             onChange={setFormData}
             onSubmit={handleSubmit}
-            onBack={() => setStep(2)}
+            onBack={() => {
+              setError(null);
+              setStep(2);
+            }}
             loading={loading}
           />
         )}

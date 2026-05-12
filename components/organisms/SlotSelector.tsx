@@ -26,12 +26,7 @@ export default function SlotSelector({ slots, selectedSlot, onSelect, onNext, on
       </div>
       <div className="flex justify-between">
         <Button onClick={onBack} variant="outline">← Back</Button>
-        <Button onClick={() => {
-          if (!selectedSlot) return alert("Please select a time slot.");
-          onNext();
-        }} variant="primary">
-          Next →
-        </Button>
+        <Button onClick={onNext} variant="primary">Next →</Button>
       </div>
     </div>
   );
