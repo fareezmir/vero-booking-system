@@ -6,12 +6,6 @@ export default function Navbar() {
       <Link href="/" className="text-white font-semibold text-lg tracking-tight">
         Vero Booking
       </Link>
-      <Link
-        href="/admin"
-        className="text-sm text-white/60 hover:text-white transition-colors"
-      >
-        Admin
-      </Link>
     </nav>
   );
 }
