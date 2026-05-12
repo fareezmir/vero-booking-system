@@ -83,4 +83,6 @@ On the admin side, physicians and staff can view all bookings and update their s
 
 **UI polish**: The frontend is intentionally minimal but could be elevated with micro-animations, transitions between booking steps, decorative icons, or a further refined aesthetic to give patients a more premium experience when on the site.
 
+**Booking management**: Admins should be able to hard delete bookings, particularly for outdated or past appointments. Currently cancelled status serves as a soft delete.
+
 **CI/CD**: Add a GitHub Actions pipeline with ESLint and Prettier checks on every push.
