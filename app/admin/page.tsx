@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getBookings, updateBookingStatus } from "@/services/bookingService";
-import Button from "@/components/atoms/Button";
+import BookingCard from "@/components/molecules/BookingCard";
 
 type BookingStatus = "pending" | "confirmed" | "cancelled";
 
@@ -55,19 +55,6 @@ export default function Admin() {
     return matchesStatus && matchesPhysician;
   });
 
-  const statusBadge = (status: string) => {
-    const styles: Record<string, string> = {
-      pending: "bg-amber-100 text-amber-800",
-      confirmed: "bg-green-100 text-green-800",
-      cancelled: "bg-gray-100 text-gray-500",
-    };
-    return (
-      <span className={`text-xs font-medium px-3 py-1 rounded-full ${styles[status]}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
-  };
-
   return (
     <main className="min-h-screen bg-beige px-6 py-12">
       <div className="max-w-4xl mx-auto">
@@ -117,49 +104,11 @@ export default function Admin() {
         ) : (
           <div className="flex flex-col gap-4">
             {filtered.map((booking) => (
-              <div key={booking.id} className="bg-white rounded-xl border border-sky p-5">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      <p className="font-semibold text-navy">{booking.patientName}</p>
-                      {statusBadge(booking.status)}
-                    </div>
-                    <p className="text-sm text-teal">{booking.slot.physician.name} · {booking.slot.physician.specialty}</p>
-                    <p className="text-sm text-teal mt-0.5">
-                      {new Date(booking.slot.datetime).toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })}
-                      {' at '}
-                      {new Date(booking.slot.datetime).toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                    <p className="text-xs text-text-muted mt-2 italic">"{booking.reasonForVisit}"</p>
-                  </div>
-
-                  <div className="flex gap-2">
-                    {booking.status === "pending" && (
-                      <>
-                        <Button onClick={() => handleStatusChange(booking.id, "confirmed")} variant="primary">
-                          Confirm
-                        </Button>
-                        <Button onClick={() => handleStatusChange(booking.id, "cancelled")} variant="outline">
-                          Cancel
-                        </Button>
-                      </>
-                    )}
-                    {booking.status === "confirmed" && (
-                      <Button onClick={() => handleStatusChange(booking.id, "cancelled")} variant="outline">
-                        Cancel
-                      </Button>
-                    )}
-                    {booking.status === "cancelled" && (
-                      <span className="text-xs text-text-muted self-center">No actions</span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="mt-3 pt-3 border-t border-sky flex gap-6 text-xs text-text-muted">
-                  <span>{booking.patientEmail}</span>
-                  <span>{booking.patientPhone}</span>
-                </div>
-              </div>
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+                onStatusChange={handleStatusChange}
+              />
             ))}
           </div>
         )}
