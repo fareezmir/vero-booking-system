@@ -85,4 +85,6 @@ On the admin side, physicians and staff can view all bookings and update their s
 
 **Booking management**: Admins should be able to hard delete bookings, particularly for outdated or past appointments. Currently cancelled status serves as a soft delete.
 
+**Form validation**: Add proper input validation to ensure the email field contains a valid email address, phone number matches a valid format, and all fields meet minimum length requirements. Currently only checks that fields are non-empty.
+
 **CI/CD**: Add a GitHub Actions pipeline with ESLint and Prettier checks on every push.
